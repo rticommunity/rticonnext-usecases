@@ -1,9 +1,7 @@
 @echo off
 setlocal
 
-IF []==[%ROUTER_HOME%] (
-  @echo The ROUTER_HOME environment variable must be set to Connext_install_dir/RTI_Routing_Service_5.0.0 to run this example
-)
+IF []==[%NDDSHOME%] GOTO NeedNDDSHome
 
 set dir=%~dp0
 set executable_name=rtiroutingservice
@@ -11,4 +9,9 @@ set executable_name=rtiroutingservice
 
 cd %dir%\..\routing
 
-call %ROUTER_HOME%\scripts\%executable_name% -cfgFile Routing-TCP-LAN.xml -cfgName %1
+call "%NDDSHOME%\bin\%executable_name%" -cfgFile Routing-TCP-LAN.xml -cfgName %1
+EXIT /B 0
+
+:NeedNDDSHome
+@echo NDDSHOME must be set to the RTI Connext install dir to run this example
+EXIT /B 1
